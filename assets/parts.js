@@ -82,7 +82,7 @@ function remove(id) {
   $("#add_" + id).empty();
   $('#item_' + id).removeClass('selected');
   $("#add_" + id).append('<button class="u-full-height" onclick="add(' + id + ')" style="width: 17px">+</button>');
-  delete cart[id]; 
+  delete cart[id];
 
   cartNumber -= 1;
   $('#checkout').empty();
@@ -128,11 +128,11 @@ const virtscrollCallback = (start, stop) => {
   $('#partsItems').append(str);
 }
 
-$.getJSON( "backend/getParts.php", function( newData ) {
+$.getJSON("backend/getParts.php", function (newData) {
 
   data = newData;
 
- 
+
   // console.log(data[0]);
 
   // divContainer, divTopSpacer, divItems, elementHeight, numberOfElements, renderCallback
@@ -142,80 +142,6 @@ $.getJSON( "backend/getParts.php", function( newData ) {
   renderCols();
 
 });
-
-$('#shipping').hide();
-$('#users').hide();
-
-
-
-$("#view-parts").on('click', function () {
-    $('.nav-link').removeClass('active');
-    $(this).addClass('active');
-    $('#shipping').hide('slow');
-    $('#users').hide('slow');
-    $('#parts').show('slow');
-
-   
-
-    $.ajax({
-        url: "ajax.php",
-        type: "POST",
-        data: {
-            'trigger': 'getTable',
-            table: "parts",
-        },
-        success: function (result) {
-            document.getElementById("tableBlock").innerHTML = result;
-        }
-
-    });
-
-});
-$("#view-users").on('click', function () {
-    $('.nav-link').removeClass('active');
-    $(this).addClass('active');
-
-    $('#users').show('slow');
-    $('#parts').hide('slow');
-    $('#shipping').hide('slow');
-
-
-    $.ajax({
-        url: "ajax.php",
-        type: "POST",
-        data: {
-            'trigger': 'getTable',
-            table: "users",
-        },
-        success: function (result) {
-            document.getElementById("users").innerHTML = result;
-        }
-
-    });
-});
-
-$("#view-shipping").on('click', function () {
-    $('.nav-link').removeClass('active');
-    $(this).addClass('active');
-    $('#shipping').show('slow');
-    $('#parts').hide('slow');
-    $('#users').hide('slow');
-
-    $.ajax({
-        url: "ajax.php",
-        type: "POST",
-        data: {
-            'trigger': 'getTable',
-            table: "upscost",
-        },
-        success: function (result) {
-
-            document.getElementById("shipping").innerHTML = result;
-        }
-
-    });
-});
-
 
 
 const setupColChooser = () => {
@@ -233,7 +159,7 @@ const setupColChooser = () => {
   $('#colMenu').append(str);
 
   for (let i = 0; i < colsNames.length; i++) {
-    $('#' + i).change(function(){
+    $('#' + i).change(function () {
       console.log(i + " " + this.checked);
       columns[colsNames[i]] = this.checked;
     });
@@ -255,96 +181,61 @@ const setupSortChooser = () => {
 
 
 
-$("#sortColumns").click(function() {
+$("#sortColumns").click(function () {
   $('#colOverlay2').css('display', 'flex');
   setupSortChooser();
-});    
-$('#quit2').click(function() {
+});
+$('#quit2').click(function () {
   $('#colOverlay2').css('display', 'none');
   // renderCols();
   // scroll._render(true);
-});  
+});
 
-$("#partColumns").click(function() {
+$("#partColumns").click(function () {
   $('#colOverlay').css('display', 'flex');
   setupColChooser();
-});    
+});
 
-$('#quit').click(function() {
+$('#quit').click(function () {
   $('#colOverlay').css('display', 'none');
   renderCols();
   scroll._render(true);
-});  
+});
 
 $('#estimate').click(function () {
 
-    if (price > 0 && weight > 0) {
-        var zip = $('#zip').val();
-      
-            $.ajax({
-                url: "ajax.php",
-                type: "POST",
-                data: {
-                    'trigger': 'getCost',
-                    price: price,
-                    zip: zip,
-                    weight: weight
-                },
-                success: function (result) {
-                    result = JSON.parse(result)
-                    $("#cost").append(result.TotalCost);
-                }
+  if (price > 0 && weight > 0) {
+    var zip = $('#zip').val();
 
-            });
-        
-        /*
+    $.ajax({
+      url: "ajax.php",
+      type: "POST",
+      data: {
+        'trigger': 'getCost',
+        price: price,
+        zip: zip,
+        weight: weight
+      },
+      success: function (result) {
+        result = JSON.parse(result)
+        $("#cost").append(result.TotalCost);
+      }
 
-    $.getJSON( "backend/getCost.php?cost=" + price + "&zip=" + $('#zip').val() + "&weight=" + weight, function( answer ) {
-    
-      // console.log(answer);
-      $('#cost').empty();
-      $('#state').empty();
-      
-      $('#state').append(answer['State'] + " " + answer['StateAbr']);
-      $("#cost").append("cost: " + answer['TotalCost']);
     });
-  } else {
-    $('#cost').empty();
-    $('#state').empty();
-    $("#cost").append("cost: 0, Need something in your cart");
 
-    */
+
   }
 });
 
-// $('#accept').click(function() {
-//   console.log('running');
-//   $.ajax({
-//     type: "POST",
-//     url: "backend/order.php",
-//     data: {
-//       "username": username,
-//       "zip": $('#zip').val(),
-//       "weight": weight,
-//       "price": price,
-//       "parts": Object.keys(cart)
-//     },
-//     dataType: "json",
-//     success: function(data) {
-//       console.log(data);
-//     }
-//   })
-// });
-
-$("#checkout").click(function() {
+$("#checkout").click(function () {
   $('#Overlay').css('display', 'flex');
   setupCheckout();
 });
-$('#quit3').click(function() {
+$('#quit3').click(function () {
   $('#Overlay').css('display', 'none');
   // renderCols();
   // scroll._render(true);
-});    
+});
 
 let price;
 let weight;
@@ -378,32 +269,20 @@ function setupCheckout() {
       currentFound += 1;
       price += Number(data[i]['Price']);
       weight += Number(data[i]['Shipping Weight']);
-      str += "<tr><td>" + data[i]['PartName'] + "</td><td>" + data[i]['Price'] + "</td><td>" + data[i]['Shipping Weight'] + "</td>" + 
-      "<td><input required type=\"number\" name=\"" + data[i]['PartName'] + "\" value=\"1\"/></td></tr>";
+      str += "<tr><td>" + data[i]['PartName'] + "</td><td>" + data[i]['Price'] + "</td><td>" + data[i]['Shipping Weight'] + "</td>" +
+        "<td><input required type=\"number\" name=\"" + data[i]['PartName'] + "\" value=\"1\"/></td></tr>";
     }
   }
 
-  str += '<tr><td>TOTAL:</td><td>'+ price +'</td><td>'+ weight +'</td></tr></table>';
+  str += '<tr><td>TOTAL:</td><td>' + price + '</td><td>' + weight + '</td></tr></table>';
   $('#colMenu3').append(str);
 }
 
-// $('#choose').click(function() {
-//   $('#colOverlay').css('display', 'none');
-
-//   console.log(columns);
-//   for (let i = 0; i < colsNames.length; i++) {
-//     console.log(colsNames[i] + " " + $('#' + i).attr('checked'));
-//     columns[colsNames[i]] = $('#' + i).attr('checked') === "checked";
-//   }
-//   console.log(columns);
-
-//   renderCols();
-// });    
 
 
 const sortAsc = (i) => {
-  $.getJSON( "backend/getParts.php?asc=" + colsNames[i], function( newData ) {
-  
+  $.getJSON("backend/getParts.php?asc=" + colsNames[i], function (newData) {
+
     data = newData;
     scroll._render(true);
   });
@@ -411,8 +290,8 @@ const sortAsc = (i) => {
 }
 
 const sortDsc = (i) => {
-  $.getJSON( "backend/getParts.php?dsc=" + colsNames[i], function( newData ) {
-  
+  $.getJSON("backend/getParts.php?dsc=" + colsNames[i], function (newData) {
+
     data = newData;
     scroll._render(true);
   });

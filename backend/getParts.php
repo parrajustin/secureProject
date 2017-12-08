@@ -5,6 +5,7 @@
   $db = new dbConnect();
 
   // setup params
+  $table = "parts";
   $conn = $db->getConnection();
 
   if ($conn->connect_error) {

@@ -1,10 +1,10 @@
 <?php
 session_start();
 ob_start();
-include "dbconnectv2.php";
-// setup params
+// include "dbconnectv2.php";
+// // setup params
 
-$db = new DbConnect;
+// $db = new DbConnect;
 
 
 
@@ -37,8 +37,8 @@ $db = new DbConnect;
     <script src="assets/virtualScroll.js"></script>
 
     <script>
-    const cart = <?php if(!isset($_SESSION['cart']))  { echo "{}"; } else { echo json_decode($_SESSION['cart']); } ?>;
-    const username = <?php if(isset($_SESSION['username'])) { echo "\"". $_SESSION['username'] . "\""; } else { echo "\"\""; } ?>;
+    const cart = {};
+    console.log('test');
     </script>
 </head>
 
@@ -176,54 +176,12 @@ $db = new DbConnect;
                             </div>
                         </div>
                         <!-- end sort chooser -->
-                        <!-- checkout -->
-                        <div class="colOverlay" id="Overlay" style="display: none;">
-                            <div class="colChooser">
-                                <span>
-                                    Checkout <?php if (!isset($_SESSION['username'])) { echo 'MUST BE LOGGED IN TO CHECKOUT!'; } ?>
-                                </span>
-
-                                <!-- </br> -->
-                                <form action="backend/order.php" method="post">
-                                    <div id="colMenu3">
-                                        <table>
-                                            <tr>
-                                                <th>
-                                                    Part name
-                                                </th>
-                                                <th>
-                                                    Cost
-                                                </th>
-                                                <th>
-                                                    Weight
-                                                </th>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <br />
-
-                                    Zip:
-                                    <input required id="zip" name="zip" type="number" placeholder="79900" value="79900" />
-                                    <br />
-                                    <button type="button" id="estimate">Get Cost</button>
-                                    <br />
-                                    <div id="cost">cost: </div>
-                                    <br />
-                                    <div id="state"></div>
-                                    <br />
-
-                                    <button type="button" id="quit3">exit</button>
-                                    <button type="submit" value="order" id="accept" style="<?php if (!isset($_SESSION['username'])) {  echo "display: none;"; }?>">BUY</button>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- end checkout -->
                         <!-- END BODY -->
                     </div>
         </div>
 
         <!-- START JS SCRIPTS -->
-        <script src="assets/parts.js" async></script>
+        <script src="assets/admin.js" async></script>
 
         <!-- END JS SCRIPTS -->
 </body>
