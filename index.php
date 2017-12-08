@@ -23,7 +23,7 @@
   <script src="assets/virtualScroll.js"></script>
 
   <script>
-    const cart = <?php if(!isset($_SESSION['cart']))  { echo "{}"; } else { echo json_decode($_SESSION['cart']); } ?>;
+    const cart = {};
     const username = <?php if(isset($_SESSION['username'])) { echo "\"". $_SESSION['username'] . "\""; } else { echo "\"\""; } ?>;
   </script>
 </head>

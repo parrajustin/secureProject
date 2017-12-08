@@ -6,15 +6,15 @@ class dbClass {
   function __construct()
   {
 
-      // $host='earth.cs.utep.edu';
-      // $user='ecorral6';
-      // $password='YgS&yMn&';
-      // $database='ecorral6';
+      $host='earth.cs.utep.edu';
+      $user='ecorral6';
+      $password='YgS&yMn&';
+      $database='ecorral6';
 
-      $host = 'localhost:3306';
-      $user = 'root';
-      $password = '';
-      $database = 'project';
+      // $host = 'localhost:3306';
+      // $user = 'root';
+      // $password = '';
+      // $database = 'project';
 
       if (self::$check == 0) {
         self::$check = 1;
