@@ -35,12 +35,26 @@
 
             <div class="headerTitle">
                 <div class="headerSpacer"></div>
-                <span>Car Parts</span>
+                <a class="navLink headerText" href="./index.php">Car Site</a>
             </div>
 
             <div class="headerSpace"></div>
 
-            <div class="headerMenu"><?php if (isset($_SESSION['username'])) { echo "<a href=\"user.php\">welcome " . $_SESSION['username'] . "</a>"; } if (isset($_SESSION['admin']) && ($_SESSION['admin'] == 1)) { echo "<a href=\"admin.php\">Admin</a>"; } ?><?php if (!isset($_SESSION['username'])) { echo '<a href="login.php">Login</a>'; } ?><?php if (isset($_SESSION['username'])) { echo '<div class="headerSpacer"></div><a href="logout.php">Logout</a>'; } ?>
+            <div class="headerMenu">
+                <?php 
+                if (isset($_SESSION['username'])) { 
+                    echo "welcome " . $_SESSION['username'] . "<div class=\"headerSpacer\"></div><a class=\"navLink\" href=\"user.php\">User Page</a>"; 
+                } if (isset($_SESSION['admin']) && ($_SESSION['admin'] == 1)) { 
+                    echo "<div class=\"headerSpacer\"></div><a class=\"navLink\" href=\"admin.php\">Admin Page</a>"; 
+                }
+                
+                if (!isset($_SESSION['username'])) { 
+                    echo '<a class="navLink" href="login.php">Login</a>'; 
+                } 
+            
+                if (isset($_SESSION['username'])) { 
+                    echo '<div class="headerSpacer"></div><a class="navLink" href="logout.php">Logout</a>'; 
+                } ?>
                 <div class="headerSpacer"></div>
             </div>
         </div>

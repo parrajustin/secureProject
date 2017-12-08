@@ -21,25 +21,21 @@
   }
 
   if (isset($_POST['submit']) && $_POST['submit'] === "login" && isset($_POST['uname']) && isset($_POST['password'])) {
-    $query="SELECT * FROM $table where `username` = '" . $_POST['uname'] . "'";
-    // echo $query;
-    $result = $conn->query($query);
+    $stmtCheck = $conn->prepare("SELECT * FROM users where `username` = ?");
+    $stmtCheck->bind_param("s", $_POST['uname']);
+    $stmtCheck->execute();
+    $result = $stmtCheck->get_result();
+    $user = $result->fetch_assoc();
 
-    $rows = array();
-    while($r = $result->fetch_assoc()) {
-      $rows[] = $r;
-    }
-
-    if (count($rows) == 0) {
+    if (is_null($user)) {
       $error = "No user found with username: '" . $_POST['uname'] . "'";
     } else {
-      $user = $rows[0];
-      
       $salt = $user['salt'];
       $passh = sha1($_POST['password'] . $salt);
       if ($passh == $user['password']) {
         $_SESSION['username'] = $_POST['uname'];
         $_SESSION['address'] = $user['address'];
+        $_SESSION['admin'] = $user['isAdmin'];
 
         if ($user['isAdmin'] == 1) {
           header ('location: ./admin.php');
@@ -75,14 +71,23 @@
       $salt = mcrypt_create_iv(16, MCRYPT_DEV_URANDOM);
       $passh = sha1($password . $salt);
 
-      $stmt = $conn->prepare("INSERT INTO users (username, password, address, salt, isAdmin) VALUES (?, ?, ? ,?, 0)");
-      $stmt->bind_param("ssss", $uname, $passh, $address, $salt);
-      $stmt->execute();
+      $stmtCheck = $conn->prepare("SELECT * FROM users where `username` = ?");
+      $stmtCheck->bind_param("s", $uname);
+      $stmtCheck->execute();
+      $result = $stmtCheck->get_result();
+      $userCheck = $result->fetch_assoc();
 
-      
-      $_SESSION['username'] = $_POST['uname'];
-      $_SESSION['address'] = $_POST['addr'];
-      header ('location: ./user.php');
+      if (is_null($userCheck)) {
+        $stmt = $conn->prepare("INSERT INTO users (username, password, address, salt, isAdmin) VALUES (?, ?, ? ,?, 0)");
+        $stmt->bind_param("ssss", $uname, $passh, $address, $salt);
+        $stmt->execute();
+        
+        $_SESSION['username'] = $_POST['uname'];
+        $_SESSION['address'] = $_POST['addr'];
+        header ('location: ./user.php');
+      } else {
+        $error ="Username is already in use!";
+      }
     }
   } else if(isset($_POST['submit'])) {
     $error = "NOT ALL FIELDS WERE SET";
