@@ -88,6 +88,23 @@
 <meta name="author" content="SitePoint">
 <link rel="stylesheet" href="styles/main.css">
 <link rel="stylesheet" href="styles/user.css">
+    <style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+    </style>
 
 <script>
 <?php if ($error != '') echo "alert(\"$error\");"; ?>
@@ -134,22 +151,65 @@
     <!-- START BODY -->
 
     <div class="userContainer">
-        <h1>Welcome: <?php echo $_SESSION['username']; ?></h1>
+        <div class="card box">
+            <h1>Welcome: <?php echo $_SESSION['username']; ?></h1>
 
-        you live at <?php echo $_SESSION['address']; ?>
+            you live at <?php echo $_SESSION['address']; ?>
 
-        <h2> Edit information </h2>
+            <h2> Edit information </h2>
 
-        <div>
-            <form name="edit" action="user.php" method="post" onsubmit="return validateFormEdit()">
-            password: <input name="password" type="password" ><br><br>
-            confirm pass: <input name="cpassword" type="password" ><br><br>
-            address: <input name="addr" type="text" placeholder="<?php echo $_SESSION['address'] ?>"><br><br>
-            <button style="width: 100%;" type="submit" name="submit" value="edit"> Edit </button>
-            </form>
+            <div>
+                <form name="edit" action="user.php" method="post" onsubmit="return validateFormEdit()">
+                password: <input name="password" type="password" ><br><br>
+                confirm pass: <input name="cpassword" type="password" ><br><br>
+                address: <input name="addr" type="text" placeholder="<?php echo $_SESSION['address'] ?>"><br><br>
+                <button style="width: 100%;" type="submit" name="submit" value="edit"> Edit </button>
+                </form>
+            </div>
+
+            <h2> Past orders </h2>
+
+            <table>
+                <tr>
+                    <th>
+                        Order id
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        Weight
+                    </th>
+                    <th>
+                        Zip
+                    </th>
+                    <th>
+                        State
+                    </th>
+                </tr>
+            <?php
+                $stmt = $conn->prepare("SELECT * FROM orders WHERE `username` = ?");
+                $stmt->bind_param("i", $_SESSION['username']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $rows = array();
+                while($r = $result->fetch_assoc()) {
+                    // var_dump($r);
+                    echo "<tr><td>";
+                    echo $r['orderID'];
+                    echo "</td><td>";
+                    echo $r['cost'];
+                    echo "</td><td>";
+                    echo $r['weight'];
+                    echo "</td><td>";
+                    echo $r['zip'];
+                    echo "</td><td>";
+                    echo $r['state'];
+                    echo "</td></tr>";
+                }
+            ?>
+            </table>
         </div>
-
-        <h2> Past orders </h2>
     </div>
 
     <!-- END BODY -->

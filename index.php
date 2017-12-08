@@ -141,7 +141,7 @@
                     <span>Checkout <?php if (!isset($_SESSION['username'])) { echo 'MUST BE LOGGED IN TO CHECKOUT!'; } ?></span>
 
                     <!-- </br> -->
-                    <form action="backend/order.php" method="post">
+                    <form action="order.php" method="post">
                         <div id="colMenu3">
                             <table>
                                 <tr>
@@ -160,8 +160,10 @@
                         </br>
 
                         Zip: <input required id="zip" name="zip" type="number" placeholder="79900" value="79900" /><br>
-                        <button type="button" id="estimate">Get Cost</button> <br> <div id="cost">cost: </div><br>
-                        <div id="state"></div><br>
+                        <button type="button" id="estimate">Get Cost</button> <br> <div id="cost">estimated cost: </div><br>
+                        <div id="state" name="state"></div><br>
+
+                        <input type="text" id="hiddenCart" name="hiddenCart" style="display: none;" placeholder="[]" value="[]"/>
 
                         <button type="button" id="quit3">exit</button>
                         <button type="submit" value="order" id="accept" style="<?php if (!isset($_SESSION['username'])) {  echo "display: none;"; }?>">BUY</button>

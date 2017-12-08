@@ -247,14 +247,27 @@ let weight;
 function calculatePriceAndWeight() {
   price = 0;
   weight = 0;
+
+  let cartObj = [];
   
   const keys = Object.keys(cart);
   const keysLen = keys.length;
   let currentFound = 0;
   for (let i = 0; i < keysLen; i++) {
-    price += Number(cartItems[keys[i]]['Price']) * Number($('#count_' + keys[i]).val()) || 1;
-    weight += Number(cartItems[keys[i]]['Shipping Weight']) * Number($('#count_' + keys[i]).val()) || 1;
+    console.log(cartItems[keys[i]]);
+    price += Number(cartItems[keys[i]]['Price']) * (Number($('#count_' + keys[i]).val()) || 1);
+    weight += Number(cartItems[keys[i]]['Shipping Weight']) * (Number($('#count_' + keys[i]).val()) || 1);
+
+    let obj = {
+      'name': cartItems[keys[i]]['PartName'],
+      'weight': Number(cartItems[keys[i]]['Shipping Weight']),
+      'price': Number(cartItems[keys[i]]['Price']),
+      'quantity': Number($('#count_' + keys[i]).val()) || 1
+    };
+    cartObj.push(obj);
   }
+
+  $('#hiddenCart').val(JSON.stringify(cartObj));
 }
 
 let listeners = [];
@@ -262,7 +275,8 @@ let listeners = [];
 function setupCheckout() {
   const listenLen = listeners.length;
   for (let i = 0; i < listenLen; i++ ) {
-    listeners.pop().off();
+    let temp = listeners.pop()
+    temp.off("change paste keyup");
   }
 
   cartItems = {};
@@ -313,7 +327,7 @@ function setupCheckout() {
       $('#weight').empty();
       $('#weight').append(weight);
     });
-    listeners.push(("#count_" + keys[i]));
+    listeners.push($("#count_" + keys[i]));
   }
 }
 
@@ -333,12 +347,12 @@ $('#estimate').click(function() {
       $('#state').empty();
       
       $('#state').append(answer['State'] + " " + answer['StateAbr']);
-      $("#cost").append("cost: " + answer['TotalCost']);
+      $("#cost").append("estimated cost: " + answer['TotalCost']);
     });
   } else {
     $('#cost').empty();
     $('#state').empty();
-    $("#cost").append("cost: 0, Need something in your cart");
+    $("#cost").append("estimated cost: 0, Need something in your cart");
   }
 });
 
