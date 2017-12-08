@@ -11,10 +11,10 @@ class dbClass {
       $password='YgS&yMn&';
       $database='ecorral6';
 
-      $host = 'localhost:3306';
-      $user = 'root';
-      $password = '';
-      $database = 'project';
+      // $host = 'localhost:3306';
+      // $user = 'root';
+      // $password = '';
+      // $database = 'project';
 
       if (self::$check == 0) {
         self::$check = 1;
