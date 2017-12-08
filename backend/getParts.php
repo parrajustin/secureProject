@@ -2,7 +2,7 @@
   session_start();
 
   require_once('../db.php');
-  $db = new dbConnect();
+  $db = new dbClass();
 
   // setup params
   $table = "parts";

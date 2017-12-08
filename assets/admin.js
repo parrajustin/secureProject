@@ -67,30 +67,6 @@ let data;
 // // Associated image filename2	varchar(255) NULL	 
 // // Notes	varchar(255) NULL
 
-let cartNumber = 0;
-
-// function add(id) {
-//   $("#add_" + id).empty();
-//   $('#item_' + id).addClass('selected');
-//   $("#add_" + id).append('<button class="u-full-height" onclick="remove(' + id + ')" style="width: 17px">-</button>');
-//   cart[id] = true;
-
-//   cartNumber++;
-//   $('#checkout').empty();
-//   $('#checkout').append('Checkout: items ' + cartNumber);
-// }
-
-// function remove(id) {
-//   $("#add_" + id).empty();
-//   $('#item_' + id).removeClass('selected');
-//   $("#add_" + id).append('<button class="u-full-height" onclick="add(' + id + ')" style="width: 17px">+</button>');
-//   delete cart[id]; 
-
-//   cartNumber -= 1;
-//   $('#checkout').empty();
-//   $('#checkout').append('Checkout: items ' + cartNumber);
-// }
-
 const renderCols = () => {
   $('#partsHeaderCols').empty();
 
@@ -153,19 +129,6 @@ $("#view-parts").on('click', function () {
 
    
 
-    $.ajax({
-        url: "ajax.php",
-        type: "POST",
-        data: {
-            'trigger': 'getTable',
-            table: "parts",
-        },
-        success: function (result) {
-            document.getElementById("tableBlock").innerHTML = result;
-        }
-
-    });
-
 });
 $("#view-users").on('click', function () {
     $('.nav-link').removeClass('active');
@@ -184,6 +147,7 @@ $("#view-users").on('click', function () {
             table: "users",
         },
         success: function (result) {
+          // console.log(result);
             document.getElementById("users").innerHTML = result;
         }
 

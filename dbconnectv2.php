@@ -5,6 +5,8 @@
  * 12/07/2017
  * */
 define ('SALT', 'wCv6VxQaoT');
+
+require_once('./db.php');
 if(session_id() != '' ||  !isset($_SESSION['db']))
 {
     session_start();
@@ -44,11 +46,12 @@ class DbConnect
      */
     function __construct()
     {
+        $db = new dbClass();
         $this->host = 'earth.cs.utep.edu';
         $this->user = '';
         $this->password = '';
         $this->database = '';
-        $this->connection = $this->connectSQL();
+        $this->connection = $db->getConnection();
         $this->table = $this->getTableNames();
     }
 

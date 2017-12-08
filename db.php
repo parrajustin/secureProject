@@ -1,5 +1,5 @@
 <?php
-class dbConnect {
+class dbClass {
   static $connection;
   static $check = 0;
   

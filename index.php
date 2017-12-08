@@ -60,6 +60,10 @@
 
                         <div class="partsSpace2"></div>
 
+                        <button id="checkout">Checkout: items 0</button>
+
+                        <div class="partsSpacer"></div>
+
                         <button id="sortColumns">Sort Columns</button>
 
                         <div class="partsSpacer"></div>

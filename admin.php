@@ -99,7 +99,8 @@ ob_start();
                     <div class="card partsBox" id="shipping">
                     </div>
                     <div class="card partsBox" id="users">
-                        </div>
+                    </div>
+
                     <div class="card partsBox" id="parts">
 
                         <div class="partsHeader">
@@ -110,10 +111,6 @@ ob_start();
                             <div class="partsSpace"></div>
 
                             <div class="partsSpace2"></div>
-
-                            <button id="checkout">Checkout: items 0</button>
-
-                            <div class="partsSpacer"></div>
 
                             <button id="sortColumns">Sort Columns</button>
 
