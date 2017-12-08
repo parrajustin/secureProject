@@ -1,13 +1,11 @@
 <?php
   session_start();
 
+  require_once('../db.php');
+  $db = new dbConnect();
+
   // setup params
-  $host='earth.cs.utep.edu';
-  $user='ecorral6';
-  $password='YgS&yMn&';
-  $database='ecorral6';
-  $table='parts';
-  $conn = new mysqli($host, $user, $password, $database);
+  $conn = $db->getConnection();
 
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -25,7 +23,6 @@
   while($r = $result->fetch_assoc()) {
       $rows[] = $r;
   }
-
 
 
   print json_encode($rows);
