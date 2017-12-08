@@ -40,7 +40,12 @@
       if ($passh == $user['password']) {
         $_SESSION['username'] = $_POST['uname'];
         $_SESSION['address'] = $user['address'];
-        header ('location: ./user.php');
+
+        if ($user['isAdmin'] == 1) {
+          header ('location: ./admin.php');
+        } else {
+          header ('location: ./user.php');
+        }
       } else {
         $error = "Incorrect password";
       }
@@ -70,7 +75,7 @@
       $salt = mcrypt_create_iv(16, MCRYPT_DEV_URANDOM);
       $passh = sha1($password . $salt);
 
-      $stmt = $conn->prepare("INSERT INTO users (username, password, address, salt) VALUES (?, ?, ? ,?)");
+      $stmt = $conn->prepare("INSERT INTO users (username, password, address, salt, isAdmin) VALUES (?, ?, ? ,?, 0)");
       $stmt->bind_param("ssss", $uname, $passh, $address, $salt);
       $stmt->execute();
 
