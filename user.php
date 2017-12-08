@@ -206,6 +206,16 @@
                     echo "</td><td>";
                     echo $r['state'];
                     echo "</td></tr>";
+                    echo "<tr><td colspan=\"5\">";
+                    
+                    $temp = json_decode($r['orderInfo']);
+                    // "name":"Insulated Clamps 1/4\" 65000","weight":1,"price":17.99,"quantity":1
+                    for ($c = 0; $c < count($temp); $c++) {
+                        echo "item $c: " . $temp[$c]->name . ", count: " . $temp[$c]->quantity . ", individual price: " . $temp[$c]->price . "<br>";
+                    }
+
+
+                    echo "</td></tr>";
                 }
             ?>
             </table>
