@@ -10,12 +10,13 @@ if (!isset($_GET['cost']) || !isset($_GET['zip']) || !isset($_GET['weight'])) {
 
   $lowerZip = $_GET['zip'] % 1000;
 
-  $host='localhost';
-  $user='root';
-  $password='';
-  $database='project';
+  require_once('../db.php');
+  $db = new dbClass();
+
+  // setup params
+  $conn = $db->getConnection();
+
   $table='users';
-  $conn = new mysqli($host, $user, $password, $database);
 
   $stmt = $conn->prepare("SELECT * FROM `upscost` WHERE `weight` = ?");
   $stmt->bind_param("i", $weight);

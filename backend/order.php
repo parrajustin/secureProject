@@ -7,12 +7,11 @@
   }
 
   // setup params
-  $host='localhost';
-  $user='root';
-  $password='';
-  $database='project';
-  $table='parts';
-  $conn = new mysqli($host, $user, $password, $database);
+  require_once('../db.php');
+  $db = new dbClass();
+
+  // setup params
+  $conn = $db->getConnection();
 
   echo json_encode($_POST);
 ?>

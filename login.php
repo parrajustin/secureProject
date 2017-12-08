@@ -3,12 +3,12 @@
   ob_start();
 
   // setup params
-  $host='earth.cs.utep.edu';
-  $user='ecorral6';
-  $password='YgS&yMn&';
-  $database='ecorral6';
+  require_once('./db.php');
+  $db = new dbClass();
+
+  // setup params
+  $conn = $db->getConnection();
   $table='users';
-  $conn = new mysqli($host, $user, $password, $database);
 
   $error = "";
 

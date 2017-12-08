@@ -202,28 +202,21 @@ $('#quit').click(function () {
   scroll._render(true);
 });
 
-$('#estimate').click(function () {
-
+$('#estimate').click(function() {
   if (price > 0 && weight > 0) {
-    var zip = $('#zip').val();
-
-    $.ajax({
-      url: "ajax.php",
-      type: "POST",
-      data: {
-        'trigger': 'getCost',
-        price: price,
-        zip: zip,
-        weight: weight
-      },
-      success: function (result) {
-        result = JSON.parse(result)
-        $("#cost").append(result.TotalCost);
-      }
-
+    $.getJSON( "backend/getCost.php?cost=" + price + "&zip=" + $('#zip').val() + "&weight=" + weight, function( answer ) {
+    
+      // console.log(answer);
+      $('#cost').empty();
+      $('#state').empty();
+      
+      $('#state').append(answer['State'] + " " + answer['StateAbr']);
+      $("#cost").append("cost: " + answer['TotalCost']);
     });
-
-
+  } else {
+    $('#cost').empty();
+    $('#state').empty();
+    $("#cost").append("cost: 0, Need something in your cart");
   }
 });
 
